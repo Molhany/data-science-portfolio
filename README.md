@@ -259,9 +259,23 @@ git commit -m "Update portfolio"
 git push origin main
 ```
 
-### 📖 Detailed Guide
+### 🌐 Permanent Hosting on Render
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for step-by-step GitHub deployment instructions.
+For a live website that's always online:
+
+```bash
+# 1. Prepare for Render deployment
+python deploy_render.py
+
+# 2. Follow the generated instructions to deploy on Render
+# Your portfolio will be live at: https://adrian-molhany-portfolio.onrender.com
+```
+
+### 📖 Detailed Guides
+
+- [GITHUB_SETUP.md](GITHUB_SETUP.md) - Step-by-step GitHub deployment
+- [RENDER_DEPLOYMENT.md](RENDER_DEPLOYMENT.md) - Complete Render hosting guide
+- [DEPLOYMENT.md](DEPLOYMENT.md) - General deployment instructions
 
 ## 📞 Support
 
