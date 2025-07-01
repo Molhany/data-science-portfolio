@@ -1,0 +1,281 @@
+<!-- Footer Component with Futuristic Design -->
+<footer class="relative bg-gray-900 dark:bg-black text-white overflow-hidden">
+    <!-- Animated Background -->
+    <div class="absolute inset-0 opacity-10">
+        <div class="matrix-bg h-full w-full"></div>
+    </div>
+    
+    <div class="relative z-10">
+        <!-- Main Footer Content -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Brand Section -->
+                <div class="space-y-6">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-accent-500 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-code text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold gradient-text-primary">DataSci Portfolio</h3>
+                            <p class="text-sm text-gray-400">Data Science & Informatics</p>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Passionate about transforming data into actionable insights and building innovative solutions that drive business value.
+                    </p>
+                    
+                    <!-- Social Links -->
+                    <div class="flex flex-wrap gap-3">
+                        {% if profile and profile.github_url %}
+                        <a href="{{ profile.github_url }}" target="_blank" class="w-10 h-10 bg-gray-800 hover:bg-primary-600 rounded-lg flex items-center justify-center transition-colors duration-300" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if profile and profile.linkedin_url %}
+                        <a href="{{ profile.linkedin_url }}" target="_blank" class="w-10 h-10 bg-gray-800 hover:bg-primary-600 rounded-lg flex items-center justify-center transition-colors duration-300" title="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if profile and profile.twitter_url %}
+                        <a href="{{ profile.twitter_url }}" target="_blank" class="w-10 h-10 bg-gray-800 hover:bg-primary-600 rounded-lg flex items-center justify-center transition-colors duration-300" title="Twitter/X">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if profile and profile.facebook_url %}
+                        <a href="{{ profile.facebook_url }}" target="_blank" class="w-10 h-10 bg-gray-800 hover:bg-primary-600 rounded-lg flex items-center justify-center transition-colors duration-300" title="Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if profile and profile.whatsapp_number %}
+                        <a href="https://wa.me/{{ profile.whatsapp_number }}" target="_blank" class="w-10 h-10 bg-gray-800 hover:bg-green-600 rounded-lg flex items-center justify-center transition-colors duration-300" title="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if profile and profile.instagram_url %}
+                        <a href="{{ profile.instagram_url }}" target="_blank" class="w-10 h-10 bg-gray-800 hover:bg-pink-600 rounded-lg flex items-center justify-center transition-colors duration-300" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if profile and profile.youtube_url %}
+                        <a href="{{ profile.youtube_url }}" target="_blank" class="w-10 h-10 bg-gray-800 hover:bg-red-600 rounded-lg flex items-center justify-center transition-colors duration-300" title="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if profile and profile.kaggle_url %}
+                        <a href="{{ profile.kaggle_url }}" target="_blank" class="w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors duration-300" title="Kaggle">
+                            <i class="fab fa-kaggle"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="space-y-6">
+                    <h4 class="text-lg font-semibold text-white">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="{% url 'portfolio:home' %}" class="text-gray-300 hover:text-primary-400 transition-colors duration-200 flex items-center space-x-2">
+                                <i class="fas fa-home text-sm"></i>
+                                <span>Home</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'portfolio:about' %}" class="text-gray-300 hover:text-primary-400 transition-colors duration-200 flex items-center space-x-2">
+                                <i class="fas fa-user text-sm"></i>
+                                <span>About</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'projects:list' %}" class="text-gray-300 hover:text-primary-400 transition-colors duration-200 flex items-center space-x-2">
+                                <i class="fas fa-project-diagram text-sm"></i>
+                                <span>Projects</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'skills:list' %}" class="text-gray-300 hover:text-primary-400 transition-colors duration-200 flex items-center space-x-2">
+                                <i class="fas fa-cogs text-sm"></i>
+                                <span>Skills</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'blog:list' %}" class="text-gray-300 hover:text-primary-400 transition-colors duration-200 flex items-center space-x-2">
+                                <i class="fas fa-blog text-sm"></i>
+                                <span>Blog</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Skills Categories -->
+                <div class="space-y-6">
+                    <h4 class="text-lg font-semibold text-white">Expertise Areas</h4>
+                    <ul class="space-y-3">
+                        <li>
+                            <span class="text-gray-300 flex items-center space-x-2">
+                                <i class="fas fa-chart-line text-primary-400 text-sm"></i>
+                                <span>Data Analysis</span>
+                            </span>
+                        </li>
+                        <li>
+                            <span class="text-gray-300 flex items-center space-x-2">
+                                <i class="fas fa-robot text-primary-400 text-sm"></i>
+                                <span>Machine Learning</span>
+                            </span>
+                        </li>
+                        <li>
+                            <span class="text-gray-300 flex items-center space-x-2">
+                                <i class="fas fa-database text-primary-400 text-sm"></i>
+                                <span>Data Engineering</span>
+                            </span>
+                        </li>
+                        <li>
+                            <span class="text-gray-300 flex items-center space-x-2">
+                                <i class="fas fa-eye text-primary-400 text-sm"></i>
+                                <span>Data Visualization</span>
+                            </span>
+                        </li>
+                        <li>
+                            <span class="text-gray-300 flex items-center space-x-2">
+                                <i class="fas fa-brain text-primary-400 text-sm"></i>
+                                <span>Deep Learning</span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="space-y-6">
+                    <h4 class="text-lg font-semibold text-white">Get In Touch</h4>
+                    <div class="space-y-3">
+                        {% if profile and profile.contact_email %}
+                        <div class="flex items-center space-x-3 text-gray-300">
+                            <i class="fas fa-envelope text-primary-400"></i>
+                            <a href="mailto:{{ profile.contact_email }}" class="hover:text-primary-400 transition-colors duration-200">{{ profile.contact_email }}</a>
+                        </div>
+                        {% endif %}
+
+                        {% if profile and profile.contact_phone %}
+                        <div class="flex items-center space-x-3 text-gray-300">
+                            <i class="fas fa-phone text-primary-400"></i>
+                            <a href="tel:{{ profile.contact_phone }}" class="hover:text-primary-400 transition-colors duration-200">{{ profile.contact_phone }}</a>
+                        </div>
+                        {% endif %}
+
+                        {% if profile and profile.whatsapp_number %}
+                        <div class="flex items-center space-x-3 text-gray-300">
+                            <i class="fab fa-whatsapp text-green-400"></i>
+                            <a href="https://wa.me/{{ profile.whatsapp_number }}" target="_blank" class="hover:text-green-400 transition-colors duration-200">WhatsApp Chat</a>
+                        </div>
+                        {% endif %}
+
+                        {% if profile and profile.telegram_url %}
+                        <div class="flex items-center space-x-3 text-gray-300">
+                            <i class="fab fa-telegram text-blue-400"></i>
+                            <a href="{{ profile.telegram_url }}" target="_blank" class="hover:text-blue-400 transition-colors duration-200">Telegram</a>
+                        </div>
+                        {% endif %}
+
+                        {% if profile and profile.business_hours %}
+                        <div class="flex items-center space-x-3 text-gray-300">
+                            <i class="fas fa-clock text-primary-400"></i>
+                            <span>{{ profile.business_hours }}</span>
+                        </div>
+                        {% endif %}
+
+                        {% if profile and profile.contact_address %}
+                        <div class="flex items-start space-x-3 text-gray-300">
+                            <i class="fas fa-map-marker-alt text-primary-400 mt-1"></i>
+                            <span>{{ profile.contact_address|linebreaks }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                    
+                    <!-- Newsletter Signup -->
+                    <div class="space-y-3">
+                        <h5 class="text-sm font-medium text-white">Stay Updated</h5>
+                        <form class="flex space-x-2" x-data="{ email: '', loading: false }" @submit.prevent="subscribeNewsletter()">
+                            <input type="email"
+                                   x-model="email"
+                                   placeholder="Enter your email"
+                                   required
+                                   class="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-primary-500">
+                            <button type="submit"
+                                    :disabled="loading"
+                                    class="px-4 py-2 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-600 rounded-lg text-white text-sm transition-colors duration-200">
+                                <i class="fas fa-paper-plane" x-show="!loading"></i>
+                                <i class="fas fa-spinner fa-spin" x-show="loading"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Bar -->
+        <div class="border-t border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                    <div class="text-gray-400 text-sm">
+                        © 2024 Data Science Portfolio. Built with Django & Modern Web Technologies.
+                    </div>
+                    
+                    <div class="flex items-center space-x-6 text-sm">
+                        <a href="{% url 'legal:privacy_policy' %}" class="text-gray-400 hover:text-primary-400 transition-colors duration-200">Privacy Policy</a>
+                        <a href="{% url 'legal:terms_of_service' %}" class="text-gray-400 hover:text-primary-400 transition-colors duration-200">Terms of Service</a>
+                        <a href="{% url 'legal:cookie_policy' %}" class="text-gray-400 hover:text-primary-400 transition-colors duration-200">Cookie Policy</a>
+                        <div class="flex items-center space-x-2 text-gray-400">
+                            <i class="fas fa-heart text-red-500 animate-pulse"></i>
+                            <span>Made with passion for data science</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+async function subscribeNewsletter() {
+    if (!this.email || this.loading) return;
+
+    this.loading = true;
+
+    try {
+        const response = await fetch('{% url "contact:newsletter_signup" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || ''
+            },
+            body: JSON.stringify({
+                email: this.email,
+                source: 'footer'
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert('Thank you for subscribing! You will receive updates about new projects and insights.');
+            this.email = '';
+        } else {
+            alert(data.message || 'Subscription failed. Please try again.');
+        }
+    } catch (error) {
+        console.error('Newsletter subscription error:', error);
+        alert('Something went wrong. Please try again later.');
+    } finally {
+        this.loading = false;
+    }
+}
+</script>

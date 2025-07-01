@@ -1,0 +1,609 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ project.title }} - Projects{% endblock %}
+
+{% block content %}
+<!-- Project Hero Section -->
+<section class="relative py-20 bg-gradient-to-br from-primary-50 to-accent-50 dark:from-dark-900 dark:to-dark-800 overflow-hidden">
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Project Info -->
+            <div class="space-y-6" data-aos="fade-right">
+                <div class="flex items-center space-x-3">
+                    <span class="px-4 py-2 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded-full text-sm font-medium">
+                        {{ project.category.name }}
+                    </span>
+                    <span class="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm capitalize">
+                        {{ project.status }}
+                    </span>
+                </div>
+                
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
+                    {{ project.title }}
+                </h1>
+                
+                <p class="text-xl text-gray-600 dark:text-gray-300">
+                    {{ project.short_description }}
+                </p>
+                
+                <!-- Project Links -->
+                <div class="flex flex-wrap gap-4">
+                    {% if project.github_url %}
+                    <a href="{{ project.github_url }}" target="_blank" 
+                       class="cyber-button rounded-lg px-6 py-3 inline-flex items-center space-x-2">
+                        <i class="fab fa-github"></i>
+                        <span>View Code</span>
+                    </a>
+                    {% endif %}
+                    
+                    {% if project.live_demo_url %}
+                    <a href="{{ project.live_demo_url }}" target="_blank" 
+                       class="glass-dark rounded-lg px-6 py-3 inline-flex items-center space-x-2 hover:bg-white/10 transition-all duration-300">
+                        <i class="fas fa-external-link-alt"></i>
+                        <span>Live Demo</span>
+                    </a>
+                    {% endif %}
+                    
+                    <button type="button"
+                            onclick="handlePurchaseClick(event, '{{ project.slug }}', '{{ project.title }}')"
+                            data-project-slug="{{ project.slug }}"
+                            data-project-title="{{ project.title }}"
+                            class="bg-green-600 hover:bg-green-700 text-white rounded-lg px-6 py-3 inline-flex items-center space-x-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 hover:transform hover:scale-105">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Purchase Project - $50</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Project Media (Video or Image) -->
+            <div class="flex justify-center lg:justify-end" data-aos="fade-left">
+                {% if project.demo_video %}
+                <div class="w-full max-w-lg rounded-2xl overflow-hidden ring-4 ring-primary-500/50 shadow-2xl bg-black">
+                    <video
+                        controls
+                        preload="metadata"
+                        poster="{% if project.featured_image %}{{ project.featured_image.url }}{% endif %}"
+                        class="w-full h-auto"
+                        style="max-height: 400px;">
+                        <source src="{{ project.demo_video.url }}" type="video/mp4">
+                        <source src="{{ project.demo_video.url }}" type="video/webm">
+                        <source src="{{ project.demo_video.url }}" type="video/ogg">
+                        Your browser does not support the video tag.
+                        {% if project.featured_image %}
+                        <img src="{{ project.featured_image.url }}" alt="{{ project.title }}" class="w-full h-auto object-cover">
+                        {% endif %}
+                    </video>
+
+                    <!-- Video Controls Overlay -->
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 cursor-pointer"
+                         onclick="openVideoModal('{{ project.demo_video.url }}', '{{ project.title }}')">
+                        <div class="bg-black/50 rounded-full p-4 pointer-events-auto">
+                            <i class="fas fa-expand text-white text-xl mr-2"></i>
+                            <i class="fas fa-play text-white text-xl"></i>
+                        </div>
+                    </div>
+
+                    <!-- Video Info -->
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                        <div class="flex items-center space-x-2 text-white text-sm">
+                            <i class="fas fa-video"></i>
+                            <span>Demo Video</span>
+                        </div>
+                    </div>
+                </div>
+                {% elif project.featured_image %}
+                <div class="w-full max-w-lg rounded-2xl overflow-hidden ring-4 ring-primary-500/50 shadow-2xl">
+                    <img src="{{ project.featured_image.url }}" alt="{{ project.title }}" class="w-full h-auto object-cover">
+                </div>
+                {% else %}
+                <div class="w-full max-w-lg h-80 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center ring-4 ring-primary-500/50 shadow-2xl">
+                    <i class="fas fa-project-diagram text-6xl text-white"></i>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Project Details -->
+<section class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            
+            <!-- Main Content -->
+            <div class="lg:col-span-2 space-y-12">
+                
+                <!-- Description -->
+                <div data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Project Overview</h2>
+                    <div class="prose prose-lg dark:prose-invert max-w-none">
+                        {{ project.description|linebreaks }}
+                    </div>
+                </div>
+                
+                <!-- Key Features -->
+                {% if project.key_features %}
+                <div data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Key Features</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {% for feature in project.get_key_features_list %}
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                            <span class="text-gray-700 dark:text-gray-300">{{ feature }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Challenges & Solutions -->
+                {% if project.challenges_faced %}
+                <div data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Challenges & Solutions</h2>
+                    <div class="holographic-card rounded-xl p-6">
+                        <div class="prose dark:prose-invert max-w-none">
+                            {{ project.challenges_faced|linebreaks }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Lessons Learned -->
+                {% if project.lessons_learned %}
+                <div data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Lessons Learned</h2>
+                    <div class="holographic-card rounded-xl p-6">
+                        <div class="prose dark:prose-invert max-w-none">
+                            {{ project.lessons_learned|linebreaks }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Project Gallery -->
+                {% if project.images.all %}
+                <div data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Project Gallery</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {% for image in project.images.all %}
+                        <div class="rounded-xl overflow-hidden shadow-lg">
+                            <img src="{{ image.image.url }}" alt="{{ image.caption }}" class="w-full h-48 object-cover">
+                            {% if image.caption %}
+                            <div class="p-4 bg-white dark:bg-dark-800">
+                                <p class="text-sm text-gray-600 dark:text-gray-300">{{ image.caption }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="space-y-8">
+                
+                <!-- Project Info -->
+                <div class="holographic-card rounded-xl p-6" data-aos="fade-left">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Project Information</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Category</span>
+                            <p class="text-gray-900 dark:text-white">{{ project.category.name }}</p>
+                        </div>
+                        
+                        <div>
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Status</span>
+                            <p class="text-gray-900 dark:text-white capitalize">{{ project.status }}</p>
+                        </div>
+                        
+                        <div>
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Duration</span>
+                            <p class="text-gray-900 dark:text-white">{{ project.get_duration_display }}</p>
+                        </div>
+                        
+                        <div>
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Start Date</span>
+                            <p class="text-gray-900 dark:text-white">{{ project.start_date|date:"M Y" }}</p>
+                        </div>
+                        
+                        {% if project.end_date %}
+                        <div>
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">End Date</span>
+                            <p class="text-gray-900 dark:text-white">{{ project.end_date|date:"M Y" }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Technologies Used -->
+                <div class="holographic-card rounded-xl p-6" data-aos="fade-left" data-aos-delay="100">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Technologies Used</h3>
+                    <div class="flex flex-wrap gap-2">
+                        {% for tech in project.technologies.all %}
+                        <span class="px-3 py-1 text-sm bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded-full">
+                            {{ tech.name }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Additional Links -->
+                {% if project.additional_links.all %}
+                <div class="holographic-card rounded-xl p-6" data-aos="fade-left" data-aos-delay="200">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Additional Resources</h3>
+                    <div class="space-y-3">
+                        {% for link in project.additional_links.all %}
+                        <a href="{{ link.url }}" target="_blank" 
+                           class="flex items-center space-x-3 text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200">
+                            <i class="fas fa-external-link-alt text-sm"></i>
+                            <span>{{ link.title }}</span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Contact CTA -->
+                <div class="holographic-card rounded-xl p-6 text-center" data-aos="fade-left" data-aos-delay="300">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Interested in Similar Work?</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-6">
+                        I can create custom solutions tailored to your specific needs.
+                    </p>
+                    <a href="{% url 'contact:contact' %}" 
+                       class="cyber-button rounded-lg px-6 py-3 inline-flex items-center space-x-2">
+                        <i class="fas fa-envelope"></i>
+                        <span>Get In Touch</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Projects -->
+{% if related_projects %}
+<section class="py-20 bg-gray-50 dark:bg-dark-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-12 text-center" data-aos="fade-up">Related Projects</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for related in related_projects %}
+            <div class="holographic-card rounded-xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                {% if related.featured_image %}
+                <div class="h-48 overflow-hidden">
+                    <img src="{{ related.featured_image.url }}" alt="{{ related.title }}" class="w-full h-full object-cover">
+                </div>
+                {% endif %}
+                
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{{ related.title }}</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">{{ related.short_description|truncatewords:15 }}</p>
+                    <a href="{{ related.get_absolute_url }}" 
+                       class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium text-sm">
+                        View Project →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Purchase Modal -->
+<div id="purchaseModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-dark-800 rounded-xl max-w-md w-full">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Purchase Project</h3>
+                <button onclick="closePurchaseModal()" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <p class="text-gray-600 dark:text-gray-300 mb-6">
+                Authentication is required to purchase projects and access full documentation.
+            </p>
+            
+            <div class="text-center">
+                <button onclick="redirectToAuth('purchase')" 
+                        class="cyber-button rounded-lg px-8 py-3 inline-flex items-center space-x-2">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Login / Register to Purchase</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function openPurchaseModal(projectSlug) {
+    document.getElementById('purchaseModal').classList.remove('hidden');
+    window.selectedProject = projectSlug;
+}
+
+function closePurchaseModal() {
+    document.getElementById('purchaseModal').classList.add('hidden');
+}
+
+// Enhanced purchase click handler
+function handlePurchaseClick(event, projectSlug, projectTitle) {
+    console.log('Purchase button clicked:', projectSlug, projectTitle);
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    // Add visual feedback
+    const button = event.target.closest('button');
+    if (button) {
+        button.style.transform = 'scale(0.95)';
+        button.disabled = true;
+
+        setTimeout(() => {
+            button.style.transform = '';
+            button.disabled = false;
+        }, 300);
+    }
+
+    // Check authentication status
+    const isAuthenticated = {{ user.is_authenticated|yesno:"true,false" }};
+    console.log('User authenticated:', isAuthenticated);
+
+    if (isAuthenticated) {
+        console.log('Opening purchase flow...');
+        openPurchaseFlow(projectSlug, projectTitle);
+    } else {
+        console.log('Redirecting to login...');
+        // Redirect to login with return URL
+        const returnUrl = encodeURIComponent(window.location.pathname);
+        const loginUrl = '{% url "accounts:login" %}?next=' + returnUrl;
+        console.log('Login URL:', loginUrl);
+        window.location.href = loginUrl;
+    }
+}
+
+function redirectToAuth(action) {
+    {% if user.is_authenticated %}
+        if (action === 'purchase') {
+            openPurchaseFlow('{{ project.slug }}', '{{ project.title }}');
+        }
+    {% else %}
+        window.location.href = '{% url "accounts:login" %}?next=' + encodeURIComponent(window.location.pathname);
+    {% endif %}
+}
+
+function openPurchaseFlow(projectSlug = '{{ project.slug }}', projectTitle = '{{ project.title }}') {
+    console.log('Opening purchase flow for:', projectSlug, projectTitle);
+
+    const modal = document.getElementById('purchaseModal');
+    if (!modal) {
+        console.error('Purchase modal not found!');
+        return;
+    }
+
+    window.selectedProject = projectSlug;
+    window.selectedProjectTitle = projectTitle;
+
+    modal.innerHTML = `
+        <div class="bg-white dark:bg-dark-800 rounded-xl max-w-md w-full">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Purchase Project</h3>
+                    <button onclick="closePurchaseModal()" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-4">
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Choose your payment method:</p>
+
+                    <div class="space-y-3">
+                        <button onclick="processPurchase('ecocash')" class="w-full p-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>EcoCash (Zimbabwe)</span>
+                        </button>
+                        <button onclick="processPurchase('onemoney')" class="w-full p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>OneMoney (Zimbabwe)</span>
+                        </button>
+                        <button onclick="processPurchase('innbucks')" class="w-full p-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>InnBucks (Zimbabwe)</span>
+                        </button>
+                        <button onclick="processPurchase('stripe')" class="w-full p-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
+                            <i class="fas fa-credit-card"></i>
+                            <span>International Payment</span>
+                        </button>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <p class="text-sm text-gray-500">Price: $50.00 USD</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    modal.classList.remove('hidden');
+}
+
+async function processPurchase(paymentMethod) {
+    let paymentPhone = '';
+    let paymentEmail = '{{ user.email|default:"" }}';
+
+    if (['ecocash', 'onemoney', 'innbucks'].includes(paymentMethod)) {
+        paymentPhone = prompt('Enter your mobile number (e.g., +263771234567):');
+        if (!paymentPhone) {
+            alert('Phone number is required for mobile payments.');
+            return;
+        }
+    }
+
+    try {
+        const response = await fetch('{% url "accounts:purchase_project" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                project_slug: window.selectedProject || '{{ project.slug }}',
+                project_title: window.selectedProjectTitle || '{{ project.title }}',
+                amount: 50.00,
+                payment_method: paymentMethod,
+                payment_phone: paymentPhone,
+                payment_email: paymentEmail
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert(data.message);
+            if (data.redirect_url) {
+                window.location.href = data.redirect_url;
+            } else {
+                closePurchaseModal();
+                window.location.reload();
+            }
+        } else {
+            alert(data.message || 'Payment failed. Please try again.');
+        }
+    } catch (error) {
+        console.error('Purchase error:', error);
+        alert('Something went wrong. Please try again.');
+    }
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function closePurchaseModal() {
+    const modal = document.getElementById('purchaseModal');
+    if (modal) {
+        modal.classList.add('hidden');
+    }
+}
+</script>
+
+<!-- Purchase Modal -->
+<div id="purchaseModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <!-- Modal content will be dynamically inserted here -->
+</div>
+
+<!-- Video Modal -->
+<div id="videoModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="relative w-full max-w-5xl mx-auto">
+        <!-- Close Button -->
+        <button onclick="closeVideoModal()"
+                class="absolute -top-12 right-0 text-white hover:text-gray-300 text-2xl z-10 focus:outline-none">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <!-- Video Container -->
+        <div class="bg-black rounded-lg overflow-hidden shadow-2xl">
+            <video id="modalVideo"
+                   controls
+                   autoplay
+                   class="w-full h-auto max-h-[80vh]"
+                   style="outline: none;">
+                Your browser does not support the video tag.
+            </video>
+
+            <!-- Video Info -->
+            <div class="p-6 bg-gray-900 text-white">
+                <h3 id="videoTitle" class="text-xl font-semibold mb-2"></h3>
+                <div class="flex items-center space-x-4 text-sm text-gray-300">
+                    <span class="flex items-center space-x-1">
+                        <i class="fas fa-video"></i>
+                        <span>Demo Video</span>
+                    </span>
+                    <span class="flex items-center space-x-1">
+                        <i class="fas fa-expand"></i>
+                        <span>Full Screen Available</span>
+                    </span>
+                    <span class="flex items-center space-x-1">
+                        <i class="fas fa-download"></i>
+                        <span>Right-click to download</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Video modal functions
+function openVideoModal(videoUrl, projectTitle) {
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('modalVideo');
+    const title = document.getElementById('videoTitle');
+
+    // Set video source and title
+    video.src = videoUrl;
+    title.textContent = projectTitle;
+
+    // Show modal
+    modal.classList.remove('hidden');
+
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
+
+    // Play video with error handling
+    video.play().catch(e => {
+        console.log('Video autoplay prevented:', e);
+        // Show play button if autoplay fails
+        video.controls = true;
+    });
+}
+
+function closeVideoModal() {
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('modalVideo');
+
+    // Pause and reset video
+    video.pause();
+    video.currentTime = 0;
+    video.src = '';
+
+    // Hide modal
+    modal.classList.add('hidden');
+
+    // Restore body scroll
+    document.body.style.overflow = '';
+}
+
+// Close modal when clicking outside video
+document.addEventListener('DOMContentLoaded', function() {
+    const videoModal = document.getElementById('videoModal');
+    if (videoModal) {
+        videoModal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeVideoModal();
+            }
+        });
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeVideoModal();
+    }
+});
+</script>
+{% endblock %}

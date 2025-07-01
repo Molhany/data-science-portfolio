@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Purchased Projects - Data Science Portfolio{% endblock %}
+
+{% block content %}
+<!-- Purchased Projects Section -->
+<section class="relative py-20 bg-gradient-to-br from-primary-50 to-accent-50 dark:from-dark-900 dark:to-dark-800 min-h-screen">
+    <!-- Animated Background -->
+    <div class="absolute inset-0 opacity-20">
+        <div class="floating absolute top-10 left-10 w-20 h-20 bg-primary-500/30 rounded-full blur-xl"></div>
+        <div class="floating absolute top-20 right-20 w-32 h-32 bg-accent-500/30 rounded-full blur-xl"></div>
+        <div class="floating absolute bottom-20 left-1/3 w-24 h-24 bg-primary-600/30 rounded-full blur-xl"></div>
+    </div>
+    
+    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center mb-12" data-aos="fade-up">
+            <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-shopping-cart text-green-600 dark:text-green-400 text-2xl"></i>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">My Purchased Projects</h1>
+            <p class="text-gray-600 dark:text-gray-300">Access your purchased data science projects and resources</p>
+        </div>
+        
+        <!-- Purchases Grid -->
+        {% if purchases %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for purchase in purchases %}
+            <div class="holographic-card rounded-xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <!-- Project Header -->
+                <div class="bg-gradient-to-r from-primary-600 to-accent-600 p-6 text-white">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-semibold">{{ purchase.project_title }}</h3>
+                        <span class="px-3 py-1 text-xs font-medium bg-white/20 rounded-full">
+                            {{ purchase.get_payment_method_display }}
+                        </span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold">${{ purchase.amount }}</span>
+                        <span class="px-3 py-1 text-xs font-medium rounded-full
+                            {% if purchase.payment_status == 'completed' %}bg-green-500/20 text-green-100
+                            {% elif purchase.payment_status == 'processing' %}bg-yellow-500/20 text-yellow-100
+                            {% else %}bg-red-500/20 text-red-100{% endif %}">
+                            {{ purchase.get_payment_status_display }}
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Project Details -->
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-500 dark:text-gray-400">Purchase Date:</span>
+                            <span class="text-gray-900 dark:text-white font-medium">{{ purchase.created_at|date:"M d, Y" }}</span>
+                        </div>
+                        
+                        {% if purchase.payment_reference %}
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-500 dark:text-gray-400">Reference:</span>
+                            <span class="text-gray-900 dark:text-white font-mono text-xs">{{ purchase.payment_reference }}</span>
+                        </div>
+                        {% endif %}
+                        
+                        {% if purchase.completed_at %}
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-500 dark:text-gray-400">Completed:</span>
+                            <span class="text-gray-900 dark:text-white font-medium">{{ purchase.completed_at|date:"M d, Y" }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="mt-6 space-y-3">
+                        {% if purchase.payment_status == 'completed' %}
+                        <button onclick="downloadProject('{{ purchase.project_slug }}')" 
+                                class="w-full cyber-button rounded-lg px-4 py-3 inline-flex items-center justify-center space-x-2">
+                            <i class="fas fa-download"></i>
+                            <span>Download Project</span>
+                        </button>
+                        
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="viewDocumentation('{{ purchase.project_slug }}')" 
+                                    class="glass-dark rounded-lg px-4 py-2 inline-flex items-center justify-center space-x-2 hover:bg-white/10 transition-all duration-300">
+                                <i class="fas fa-book"></i>
+                                <span>Docs</span>
+                            </button>
+                            
+                            <button onclick="viewSourceCode('{{ purchase.project_slug }}')" 
+                                    class="glass-dark rounded-lg px-4 py-2 inline-flex items-center justify-center space-x-2 hover:bg-white/10 transition-all duration-300">
+                                <i class="fas fa-code"></i>
+                                <span>Code</span>
+                            </button>
+                        </div>
+                        
+                        {% elif purchase.payment_status == 'processing' %}
+                        <div class="w-full bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-lg px-4 py-3 text-center">
+                            <i class="fas fa-clock mr-2"></i>
+                            Payment Processing...
+                        </div>
+                        
+                        {% else %}
+                        <div class="w-full bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-lg px-4 py-3 text-center">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            Payment Failed
+                        </div>
+                        <button onclick="retryPayment('{{ purchase.id }}')" 
+                                class="w-full bg-red-600 hover:bg-red-700 text-white rounded-lg px-4 py-2 transition-colors duration-200">
+                            <i class="fas fa-redo mr-2"></i>
+                            Retry Payment
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Support Section -->
+        <div class="mt-16 holographic-card rounded-xl p-8 text-center" data-aos="fade-up">
+            <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-headset text-blue-600 dark:text-blue-400 text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Need Help?</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
+                Having trouble accessing your purchased projects or need technical support? 
+                I'm here to help you get the most out of your investment.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{% url 'contact:contact' %}" 
+                   class="cyber-button rounded-lg px-6 py-3 inline-flex items-center space-x-2">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contact Support</span>
+                </a>
+                <button onclick="openLiveChat()" 
+                        class="glass-dark rounded-lg px-6 py-3 inline-flex items-center space-x-2 hover:bg-white/10 transition-all duration-300">
+                    <i class="fas fa-comments"></i>
+                    <span>Live Chat</span>
+                </button>
+            </div>
+        </div>
+        
+        {% else %}
+        <!-- Empty State -->
+        <div class="holographic-card rounded-xl p-12 text-center" data-aos="fade-up">
+            <div class="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-shopping-cart text-gray-400 text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">No Purchases Yet</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-8 max-w-md mx-auto">
+                You haven't purchased any projects yet. Explore our collection of data science projects 
+                and find solutions that match your needs.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{% url 'projects:list' %}" 
+                   class="cyber-button rounded-lg px-8 py-3 inline-flex items-center space-x-2">
+                    <i class="fas fa-eye"></i>
+                    <span>Browse Projects</span>
+                </a>
+                <a href="{% url 'accounts:request_project' %}" 
+                   class="glass-dark rounded-lg px-8 py-3 inline-flex items-center space-x-2 hover:bg-white/10 transition-all duration-300">
+                    <i class="fas fa-plus"></i>
+                    <span>Request Custom Project</span>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Back to Profile -->
+        <div class="mt-12 text-center" data-aos="fade-up">
+            <a href="{% url 'accounts:profile' %}" 
+               class="glass-dark rounded-lg px-6 py-3 inline-flex items-center space-x-2 hover:bg-white/10 transition-all duration-300">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Profile</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<script>
+function downloadProject(projectSlug) {
+    // In a real implementation, this would trigger a secure download
+    alert(`Downloading project: ${projectSlug}\n\nThis would normally start a secure download of the project files, including:\n• Source code\n• Documentation\n• Data files\n• Setup instructions`);
+}
+
+function viewDocumentation(projectSlug) {
+    // In a real implementation, this would open project documentation
+    alert(`Opening documentation for: ${projectSlug}\n\nThis would display comprehensive project documentation including:\n• Setup guide\n• API reference\n• Usage examples\n• Troubleshooting`);
+}
+
+function viewSourceCode(projectSlug) {
+    // In a real implementation, this would open source code viewer
+    alert(`Opening source code for: ${projectSlug}\n\nThis would provide access to:\n• Complete source code\n• Code comments\n• Architecture overview\n• Development notes`);
+}
+
+function retryPayment(purchaseId) {
+    if (confirm('Retry payment for this project?')) {
+        alert(`Retrying payment for purchase ID: ${purchaseId}\n\nThis would redirect you to the payment gateway to complete the transaction.`);
+        // In a real implementation, this would redirect to payment processing
+    }
+}
+
+function openLiveChat() {
+    // This would trigger the live chat widget
+    alert('Opening live chat...\n\nThis would open the live chat widget for immediate support.');
+}
+</script>
+{% endblock %}

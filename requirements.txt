@@ -1,0 +1,40 @@
+# Core Django Dependencies
+Django>=4.2.0,<5.0.0
+Pillow>=10.0.0
+
+# Environment Variables (for future deployment)
+python-decouple>=3.8.0
+
+# Static Files & CORS (for GitHub Codespaces)
+whitenoise>=6.4.0
+django-cors-headers>=4.0.0
+
+# Optional: Production packages (uncomment when deploying to hosting platforms)
+# psycopg2-binary>=2.9.0  # PostgreSQL for production
+# gunicorn>=20.1.0        # WSGI server for production
+
+# Monitoring & Analytics
+# sentry-sdk>=1.25.0      # Error tracking
+
+# Email
+# django-anymail>=10.0.0  # Email service integration
+
+# Forms & Validation
+# django-crispy-forms>=2.0.0  # Form styling
+# crispy-tailwind>=0.5.0      # Tailwind integration
+
+# API (if needed)
+# djangorestframework>=3.14.0  # REST API
+# django-filter>=23.0.0        # API filtering
+
+# File Storage (for production)
+# django-storages>=1.13.0      # Cloud storage
+# boto3>=1.26.0                # AWS S3
+
+# Search (if needed)
+# django-haystack>=3.2.0       # Search framework
+# whoosh>=2.7.0                # Search backend
+
+# Utilities
+# python-decouple>=3.8.0       # Environment variables
+# django-environ>=0.10.0       # Environment configuration

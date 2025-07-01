@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Terms of Service - Data Science Portfolio{% endblock %}
+
+{% block content %}
+<!-- Terms of Service Section -->
+<section class="relative py-20 bg-gradient-to-br from-primary-50 to-accent-50 dark:from-dark-900 dark:to-dark-800">
+    <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="holographic-card rounded-xl p-8" data-aos="fade-up">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <div class="w-16 h-16 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-file-contract text-primary-600 dark:text-primary-400 text-2xl"></i>
+                </div>
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Terms of Service</h1>
+                <p class="text-gray-600 dark:text-gray-300">Last updated: {{ "now"|date:"F d, Y" }}</p>
+            </div>
+            
+            <!-- Content -->
+            <div class="prose prose-lg dark:prose-invert max-w-none">
+                <h2>1. Acceptance of Terms</h2>
+                <p>By accessing and using this website and our services, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.</p>
+                
+                <h2>2. Description of Service</h2>
+                <p>Our platform provides:</p>
+                <ul>
+                    <li>Data science portfolio showcase</li>
+                    <li>Custom project development services</li>
+                    <li>Pre-built project purchases</li>
+                    <li>Educational content and resources</li>
+                    <li>Consultation and advisory services</li>
+                </ul>
+                
+                <h2>3. User Accounts</h2>
+                <h3>Registration</h3>
+                <p>To access certain features, you must register for an account. You agree to:</p>
+                <ul>
+                    <li>Provide accurate and complete information</li>
+                    <li>Maintain the security of your account credentials</li>
+                    <li>Update your information as necessary</li>
+                    <li>Be responsible for all activities under your account</li>
+                </ul>
+                
+                <h3>Account Termination</h3>
+                <p>We reserve the right to terminate accounts that violate these terms or engage in prohibited activities.</p>
+                
+                <h2>4. Project Services</h2>
+                <h3>Custom Projects</h3>
+                <ul>
+                    <li>Project requirements will be discussed and agreed upon before commencement</li>
+                    <li>Timelines and deliverables will be specified in project agreements</li>
+                    <li>Payment terms will be outlined for each project</li>
+                    <li>Intellectual property rights will be transferred upon full payment</li>
+                </ul>
+                
+                <h3>Pre-built Projects</h3>
+                <ul>
+                    <li>Projects are sold with full source code and documentation</li>
+                    <li>No refunds after download/access is provided</li>
+                    <li>Commercial use rights are included unless specified otherwise</li>
+                    <li>Support is provided for 30 days after purchase</li>
+                </ul>
+                
+                <h2>5. Payment Terms</h2>
+                <h3>Accepted Payment Methods</h3>
+                <ul>
+                    <li>EcoCash, OneMoney, InnBucks (Zimbabwe)</li>
+                    <li>International credit/debit cards via Stripe</li>
+                    <li>PayPal for international transactions</li>
+                </ul>
+                
+                <h3>Refund Policy</h3>
+                <ul>
+                    <li>Custom projects: Refunds available before work commences</li>
+                    <li>Pre-built projects: No refunds after access is granted</li>
+                    <li>Consultation services: Refunds available 24 hours before scheduled sessions</li>
+                </ul>
+                
+                <h2>6. Intellectual Property</h2>
+                <h3>Our Content</h3>
+                <p>All content on this website, including text, graphics, logos, and code, is our property and protected by copyright laws.</p>
+                
+                <h3>User Content</h3>
+                <p>You retain ownership of content you submit but grant us a license to use it for service provision and improvement.</p>
+                
+                <h3>Project Deliverables</h3>
+                <p>Upon full payment, you receive full rights to custom project deliverables, excluding our proprietary methodologies and frameworks.</p>
+                
+                <h2>7. Prohibited Uses</h2>
+                <p>You may not use our service:</p>
+                <ul>
+                    <li>For any unlawful purpose or to solicit unlawful acts</li>
+                    <li>To violate any international, federal, provincial, or state regulations or laws</li>
+                    <li>To transmit or procure the sending of any advertising or promotional material</li>
+                    <li>To impersonate or attempt to impersonate the company or other users</li>
+                    <li>To engage in any other conduct that restricts or inhibits anyone's use of the website</li>
+                </ul>
+                
+                <h2>8. Disclaimers</h2>
+                <h3>Service Availability</h3>
+                <p>We do not guarantee that our service will be uninterrupted, timely, secure, or error-free.</p>
+                
+                <h3>Professional Advice</h3>
+                <p>Our content and services are for informational purposes and should not be considered as professional advice without consultation.</p>
+                
+                <h2>9. Limitation of Liability</h2>
+                <p>In no event shall we be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.</p>
+                
+                <h2>10. Privacy</h2>
+                <p>Your privacy is important to us. Please review our Privacy Policy, which also governs your use of the service.</p>
+                
+                <h2>11. Modifications</h2>
+                <p>We reserve the right to modify these terms at any time. We will notify users of any material changes via email or website notice.</p>
+                
+                <h2>12. Governing Law</h2>
+                <p>These terms shall be governed by and construed in accordance with the laws of Zimbabwe, without regard to its conflict of law provisions.</p>
+                
+                <h2>13. Contact Information</h2>
+                <p>Questions about the Terms of Service should be sent to us at:</p>
+                <ul>
+                    <li>Email: legal@datasciportfolio.com</li>
+                    <li>Contact Form: <a href="{% url 'contact:contact' %}">Contact Page</a></li>
+                    <li>Address: [Your Business Address]</li>
+                </ul>
+                
+                <div class="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-6 mt-8">
+                    <h3 class="text-lg font-semibold text-yellow-900 dark:text-yellow-100 mb-3">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        Important Notice
+                    </h3>
+                    <p class="text-yellow-800 dark:text-yellow-200 text-sm">
+                        By using our services, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. 
+                        Please contact us if you have any questions or concerns.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Back Button -->
+            <div class="mt-8 text-center">
+                <a href="{% url 'portfolio:home' %}" 
+                   class="cyber-button rounded-lg px-6 py-3 inline-flex items-center space-x-2">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Home</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

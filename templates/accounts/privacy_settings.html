@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Privacy Settings - Data Science Portfolio{% endblock %}
+
+{% block content %}
+<!-- Privacy Settings Section -->
+<section class="relative py-20 bg-gradient-to-br from-primary-50 to-accent-50 dark:from-dark-900 dark:to-dark-800 min-h-screen">
+    <!-- Animated Background -->
+    <div class="absolute inset-0 opacity-20">
+        <div class="floating absolute top-10 left-10 w-20 h-20 bg-primary-500/30 rounded-full blur-xl"></div>
+        <div class="floating absolute top-20 right-20 w-32 h-32 bg-accent-500/30 rounded-full blur-xl"></div>
+        <div class="floating absolute bottom-20 left-1/3 w-24 h-24 bg-primary-600/30 rounded-full blur-xl"></div>
+    </div>
+    
+    <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="holographic-card rounded-xl p-8" data-aos="fade-up">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <div class="w-16 h-16 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-shield-alt text-primary-600 dark:text-primary-400 text-2xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Privacy Settings</h1>
+                <p class="text-gray-600 dark:text-gray-300">Control how your information is used and displayed</p>
+            </div>
+            
+            <!-- Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="mb-6 p-4 rounded-lg {% if message.tags == 'success' %}bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200{% else %}bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <!-- Privacy Settings Form -->
+            <form method="POST" class="space-y-8">
+                {% csrf_token %}
+                
+                <!-- Profile Visibility -->
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+                        <i class="fas fa-eye mr-2"></i>
+                        Profile Visibility
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-lg font-medium text-gray-900 dark:text-white">Show Email Address</h4>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm">Allow others to see your email address in your public profile</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="show_email" {% if profile.show_email %}checked{% endif %} class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600"></div>
+                            </label>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-lg font-medium text-gray-900 dark:text-white">Show Phone Number</h4>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm">Display your phone number on your public profile</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="show_phone" {% if profile.show_phone %}checked{% endif %} class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600"></div>
+                            </label>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-lg font-medium text-gray-900 dark:text-white">Show Address</h4>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm">Make your address visible to other users</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="show_address" {% if profile.show_address %}checked{% endif %} class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Communication Preferences -->
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+                        <i class="fas fa-envelope mr-2"></i>
+                        Communication Preferences
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-lg font-medium text-gray-900 dark:text-white">Newsletter Subscription</h4>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm">Receive updates about new projects, blog posts, and data science insights</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="newsletter_subscription" {% if user.newsletter_subscription %}checked{% endif %} class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600"></div>
+                            </label>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-lg font-medium text-gray-900 dark:text-white">Email Notifications</h4>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm">Get notified about project updates, messages, and account activity</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="email_notifications" {% if user.email_notifications %}checked{% endif %} class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Data Management -->
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+                        <i class="fas fa-database mr-2"></i>
+                        Data Management
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                            <h4 class="text-lg font-medium text-blue-900 dark:text-blue-100 mb-2">
+                                <i class="fas fa-download mr-2"></i>
+                                Download Your Data
+                            </h4>
+                            <p class="text-blue-800 dark:text-blue-200 text-sm mb-4">
+                                Request a copy of all your personal data stored in our system.
+                            </p>
+                            <button type="button" onclick="requestDataDownload()" 
+                                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors duration-200">
+                                <i class="fas fa-download mr-2"></i>
+                                Request Data Export
+                            </button>
+                        </div>
+                        
+                        <div class="bg-red-50 dark:bg-red-900/20 rounded-lg p-4">
+                            <h4 class="text-lg font-medium text-red-900 dark:text-red-100 mb-2">
+                                <i class="fas fa-trash mr-2"></i>
+                                Delete Account
+                            </h4>
+                            <p class="text-red-800 dark:text-red-200 text-sm mb-4">
+                                Permanently delete your account and all associated data. This action cannot be undone.
+                            </p>
+                            <button type="button" onclick="confirmAccountDeletion()" 
+                                    class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm transition-colors duration-200">
+                                <i class="fas fa-trash mr-2"></i>
+                                Delete Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Legal Information -->
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+                        <i class="fas fa-gavel mr-2"></i>
+                        Legal Information
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <a href="{% url 'legal:privacy_policy' %}" target="_blank" 
+                           class="flex items-center space-x-3 p-4 bg-white dark:bg-dark-700 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors duration-200">
+                            <i class="fas fa-shield-alt text-primary-600 dark:text-primary-400"></i>
+                            <span class="text-gray-900 dark:text-white font-medium">Privacy Policy</span>
+                        </a>
+                        
+                        <a href="{% url 'legal:terms_of_service' %}" target="_blank" 
+                           class="flex items-center space-x-3 p-4 bg-white dark:bg-dark-700 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors duration-200">
+                            <i class="fas fa-file-contract text-primary-600 dark:text-primary-400"></i>
+                            <span class="text-gray-900 dark:text-white font-medium">Terms of Service</span>
+                        </a>
+                        
+                        <a href="{% url 'legal:cookie_policy' %}" target="_blank" 
+                           class="flex items-center space-x-3 p-4 bg-white dark:bg-dark-700 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors duration-200">
+                            <i class="fas fa-cookie-bite text-primary-600 dark:text-primary-400"></i>
+                            <span class="text-gray-900 dark:text-white font-medium">Cookie Policy</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Save Button -->
+                <div class="flex justify-between items-center pt-6">
+                    <a href="{% url 'accounts:profile' %}" 
+                       class="glass-dark rounded-lg px-6 py-3 inline-flex items-center space-x-2 hover:bg-white/10 transition-all duration-300">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Back to Profile</span>
+                    </a>
+                    
+                    <button type="submit" 
+                            class="cyber-button rounded-lg px-8 py-3 inline-flex items-center space-x-2">
+                        <i class="fas fa-save"></i>
+                        <span>Save Privacy Settings</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+function requestDataDownload() {
+    alert('Data export request submitted. You will receive an email with your data within 24 hours.');
+    // In a real implementation, this would trigger a data export process
+}
+
+function confirmAccountDeletion() {
+    if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+        if (confirm('This will permanently delete all your data, purchases, and project requests. Are you absolutely sure?')) {
+            alert('Account deletion request submitted. Your account will be deleted within 24 hours.');
+            // In a real implementation, this would trigger account deletion
+        }
+    }
+}
+</script>
+{% endblock %}

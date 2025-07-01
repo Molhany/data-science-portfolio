@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register - Data Science Portfolio{% endblock %}
+
+{% block content %}
+<!-- Register Section -->
+<section class="relative py-20 bg-gradient-to-br from-primary-50 to-accent-50 dark:from-dark-900 dark:to-dark-800 min-h-screen flex items-center">
+    <!-- Animated Background -->
+    <div class="absolute inset-0 opacity-20">
+        <div class="floating absolute top-10 left-10 w-20 h-20 bg-primary-500/30 rounded-full blur-xl"></div>
+        <div class="floating absolute top-20 right-20 w-32 h-32 bg-accent-500/30 rounded-full blur-xl"></div>
+        <div class="floating absolute bottom-20 left-1/3 w-24 h-24 bg-primary-600/30 rounded-full blur-xl"></div>
+    </div>
+    
+    <div class="relative z-10 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="holographic-card rounded-xl p-8" data-aos="fade-up">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-user-plus text-primary-600 dark:text-primary-400 text-2xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Create Account</h1>
+                <p class="text-gray-600 dark:text-gray-300">Join to access projects and request custom solutions</p>
+            </div>
+            
+            <!-- Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="mb-4 p-4 rounded-lg {% if message.tags == 'success' %}bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200{% else %}bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <!-- Registration Form -->
+            <form method="POST" class="space-y-6">
+                {% csrf_token %}
+                
+                <!-- Personal Information -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.first_name.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            First Name *
+                        </label>
+                        {{ form.first_name }}
+                        {% if form.first_name.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.first_name.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.last_name.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Last Name *
+                        </label>
+                        {{ form.last_name }}
+                        {% if form.last_name.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.last_name.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Account Information -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Username *
+                        </label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.username.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Email Address *
+                        </label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.email.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Contact Information -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.phone_number.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Phone Number
+                        </label>
+                        {{ form.phone_number }}
+                        {% if form.phone_number.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.phone_number.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.city.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            City
+                        </label>
+                        {{ form.city }}
+                        {% if form.city.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.city.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Address -->
+                <div>
+                    <label for="{{ form.address.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Address
+                    </label>
+                    {{ form.address }}
+                    {% if form.address.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.address.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.country.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Country
+                    </label>
+                    {{ form.country }}
+                    {% if form.country.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.country.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <!-- Password -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.password1.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Password *
+                        </label>
+                        {{ form.password1 }}
+                        {% if form.password1.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.password1.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.password2.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Confirm Password *
+                        </label>
+                        {{ form.password2 }}
+                        {% if form.password2.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.password2.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Terms Agreement -->
+                <div class="flex items-start">
+                    <input type="checkbox" 
+                           id="terms_agreement" 
+                           name="terms_agreement"
+                           required
+                           class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                    <label for="terms_agreement" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+                        I agree to the 
+                        <a href="{% url 'legal:terms_of_service' %}" target="_blank" class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300">
+                            Terms of Service
+                        </a> 
+                        and 
+                        <a href="{% url 'legal:privacy_policy' %}" target="_blank" class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300">
+                            Privacy Policy
+                        </a>
+                    </label>
+                </div>
+                
+                <button type="button" disabled
+                        class="w-full cyber-button rounded-lg px-8 py-4 inline-flex items-center justify-center space-x-2">
+                    <i class="fas fa-user-plus"></i>
+                   <!-- <span>Create Account</span> -->
+                </button>
+            </form>
+            
+            <!-- Login Link -->
+            <div class="mt-6 text-center">
+                <p class="text-gray-600 dark:text-gray-300">
+                    Already have an account? 
+                    <a href="{% url 'accounts:login' %}" class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium">
+                        Sign in here
+                    </a>
+                </p>
+            </div>
+            
+            <!-- Back to Home -->
+            <div class="mt-4 text-center">
+                <a href="{% url 'portfolio:home' %}" class="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                    <i class="fas fa-arrow-left mr-1"></i>
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
