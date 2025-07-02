@@ -19,9 +19,12 @@ urlpatterns = [
     path('legal/', include('apps.legal.urls')),
 ]
 
-# Serve media files during development
+# Serve media files in development and production
+# Note: In production, consider using cloud storage (AWS S3, Cloudinary) for better performance
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Serve static files during development
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Customize admin site

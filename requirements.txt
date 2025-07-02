@@ -14,6 +14,10 @@ psycopg2-binary>=2.9.0  # PostgreSQL for production
 gunicorn>=20.1.0        # WSGI server for production
 dj-database-url>=2.0.0  # Database URL parsing
 
+# Media file storage (for production)
+cloudinary>=1.36.0      # Cloud media storage
+django-cloudinary-storage>=0.3.0  # Django integration
+
 # Monitoring & Analytics
 # sentry-sdk>=1.25.0      # Error tracking
 
