@@ -268,8 +268,18 @@ For a live website that's always online:
 python deploy_render.py
 
 # 2. Follow the generated instructions to deploy on Render
-# Your portfolio will be live at: https://adrian-molhany-portfolio.onrender.com
+# Your portfolio will be live at: https://data-science-portfolio-0738.onrender.com
 ```
+
+### 🔑 Default Admin Access
+
+Your portfolio automatically creates a default superuser:
+
+**Admin URL:** https://data-science-portfolio-0738.onrender.com/admin/
+**Username:** `adrian_molhany`
+**Password:** `Portfolio2024!`
+
+⚠️ **Change password after first login!**
 
 ### 📖 Detailed Guides
 
